@@ -48,8 +48,8 @@ https://github.com/RyanS161/CSCI3308-FinalProject-011-02
 
 ### 10) Meeting Plan
 
-???
-
+Modality: Zoom/In-person
+Meeting time: During Lab Time is the best, 
 ### 11) Use Case Diagram
 
 ???
