@@ -55,7 +55,7 @@ We will make a Discord to communicate with the team members and our TA. We have 
 ### 10) Meeting Plan
 
 Modality: Zoom/In-person
-Meeting time: During Lab Time is the best, 
+Meeting time: During Lab Time is the best, and we are also all free to meet Tuesdays 4-5. Our meeting with our TA has been scheduled at 4:15 on Tuesdays.
 ### 11) Use Case Diagram
 
 ???
