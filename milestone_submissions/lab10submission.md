@@ -44,7 +44,7 @@ https://github.com/RyanS161/CSCI3308-FinalProject-011-02
 
 ### 9) Communication Plan
 
-???
+We will make a Discord to communicate with the team members and our TA. We have used iMessage so far, but we will create a Discord in order to better share resources and communicate more effectively.
 
 ### 10) Meeting Plan
 
