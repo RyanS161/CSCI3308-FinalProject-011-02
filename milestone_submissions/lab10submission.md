@@ -61,5 +61,9 @@ Meeting time: During Lab Time is the best, and we are also all free to meet Tues
 ???
 
 ### 12) Wireframes
+<<<<<<< Updated upstream
 Wireframe made on Figma: https://www.figma.com/proto/awOsd7tvv3tDG3A2nqdbXX/software-dev-wireframes?node-id=1-2&scaling=scale-down&page-id=0%3A1
+=======
+ill do it, use website
+>>>>>>> Stashed changes
 ???
