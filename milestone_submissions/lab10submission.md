@@ -58,7 +58,7 @@ Modality: Zoom/In-person
 Meeting time: During Lab Time is the best, 
 ### 11) Use Case Diagram
 
-???
+![Use case diagram](./usecasediagram.png "Use case diagram")
 
 ### 12) Wireframes
 
