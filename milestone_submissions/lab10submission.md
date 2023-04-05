@@ -34,7 +34,7 @@ This application will give users the ability to have fun with friends in a compe
 
 ### 6) Vision Statement
 
-???
+For trivia enthusiasts, Who want a new spin on trivia. The Tuple Trivia is a trivia website that puts a unique spin on classic trivia. Unlike Trivia Crack, our product offers multiple trivia questions at once, all for free!
 
 ### 7) Version Control
 
