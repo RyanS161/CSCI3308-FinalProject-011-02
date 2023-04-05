@@ -26,7 +26,11 @@ Tuple Trivia
 
 ### 5) Application Description
 
-???
+Tuple Trivia will be a website where users can make an account and solve trivia questions under time constraints.
+
+The user begins by logging into or registering for Tuple Trivia, and then they will be greeted with a page that displays trivia categories. After choosing a category, the user must choose a difficulty. Then the user will solve multiple trivia questions under a time constraint. After they finish the challenge, they will receive a score, and it will be posted to the Tuple Trivia leaderboard.
+
+This application will give users the ability to have fun with friends in a competitive and intellectual environment. Users can choose to play by themselves or play with friends collaboratively.
 
 ### 6) Vision Statement
 
