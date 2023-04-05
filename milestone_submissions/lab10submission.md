@@ -10,6 +10,8 @@ Tuple Trivia
 
 ### 3) Team Members
 
+Name - Email - Github username
+
 Ryan Slocum - rysl5476@colorado.edu - RyanS161
 
 Eric Osicka - ero6895@colorado.edu - eros6895
@@ -44,7 +46,7 @@ https://github.com/RyanS161/CSCI3308-FinalProject-011-02
 
 ### 8) Development Methodology
 
-???
+We have created a project board in the projects section on the Github Repository. The github link above will direct you to the repository with the project board.
 
 ### 9) Communication Plan
 
