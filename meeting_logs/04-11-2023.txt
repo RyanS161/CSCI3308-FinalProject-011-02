@@ -1,0 +1,11 @@
+4/11/2023 Meeting Notes
+
+Update wireframe to have more interaction
+
+Add release note for this week
+
+For next week complete login, registration, and database
+
+Someone pick up API tasks 
+
+
