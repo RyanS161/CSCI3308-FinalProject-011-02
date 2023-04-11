@@ -72,7 +72,25 @@ app.get('/play', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render("pages/play", {user: req.session.user});
+    axios({
+      url: `https://the-trivia-api.com/api/questions`,
+      method: 'GET',
+      dataType: 'json',
+      headers: {
+        'Accept-Encoding': 'application/json',
+      },
+      params: {
+        limit: 1,
+      },
+    })
+      .then(results => {
+        console.log(results)
+        res.render("pages/play", {user: req.session.user, questions: results.data});
+      })
+      .catch(error => {
+        console.log(error);
+        res.render("pages/play", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
+      });
 });
 
 app.post('/login', async (req, res) => {

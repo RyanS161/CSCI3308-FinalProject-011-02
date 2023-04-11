@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS users (
    password CHAR(60) NOT NULL
 );
 
-INSERT INTO users (username, password) VALUES ('testuser', 'testpass');
+INSERT INTO users(username, password) VALUES ('testuser', 'testpass');
