@@ -40,3 +40,19 @@ it('Redirect to leaderboard on a correct username and password', done => {
     });
 });
 });
+
+describe('Register: Positive Case', () => {
+  // Sample test case given to test / endpoint.
+  it('Redirect to login on successful registration', done => {
+      chai
+      .request(server)
+      .post('/register')
+      .send({'username' : 'newUser', 'password' : 'newPass'}) //testing new user registering
+      .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
+          expect(res).to.have.redirect
+          done();
+      });
+  });
+  });
