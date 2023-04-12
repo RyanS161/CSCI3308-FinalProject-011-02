@@ -9,7 +9,7 @@ chai.should();
 chai.use(chaiHttp);
 const {assert, expect} = chai;
 
-describe('Login', () => {
+describe('Login: Negative case', () => {
   // Sample test case given to test / endpoint.
   it('Returns failure for a bad username and password', done => {
     chai
@@ -18,11 +18,25 @@ describe('Login', () => {
       .send({'username' : 'thisisatestusername', 'password' : 'thisisatestpassword'})
       .end((err, res) => {
         expect(res).to.have.status(200);
-        assert.strictEqual(res.local.message, 'Cannot find user in database');
+        expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
+        expect(res.text).to.contain('Cannot find user in database');
         done();
       });
-  });
+});
+});
 
-  // ===========================================================================
-  // TO-DO: Part A Login unit test case
+describe('Login: Positive Case', () => {
+// Sample test case given to test / endpoint.
+it('Redirect to leaderboard on a correct username and password', done => {
+    chai
+    .request(server)
+    .post('/login')
+    .send({'username' : 'testuser', 'password' : 'testpass'}) //Pre-added in sql file
+    .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
+        expect(res.text).to.contain('Add leaderboards content here');
+        done();
+    });
+});
 });
