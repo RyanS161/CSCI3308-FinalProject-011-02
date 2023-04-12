@@ -9,14 +9,16 @@ chai.should();
 chai.use(chaiHttp);
 const {assert, expect} = chai;
 
-describe('Server!', () => {
+describe('Login', () => {
   // Sample test case given to test / endpoint.
-  it('Returns the default welcome message', done => {
+  it('Returns failure for a bad username and password', done => {
     chai
       .request(server)
-      .get('/')
+      .post('/login')
+      .send({'username' : 'thisisatestusername', 'password' : 'thisisatestpassword'})
       .end((err, res) => {
         expect(res).to.have.status(200);
+        assert.strictEqual(res.local.message, 'Cannot find user in database');
         done();
       });
   });

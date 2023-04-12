@@ -95,11 +95,12 @@ app.get('/play', (req, res) => {
 
 app.post('/login', async (req, res) => {
     //hash the password using bcrypt library
-    const query = 'SELECT username, password FROM users WHERE username = $1;';
+    let query = 'SELECT username, password FROM users WHERE username = $1;';
     db.any(query, [req.body.username])
     .then(async function (data) {
-      if (data.length === 0) {
-        res.redirect("/register", {message : "User does not exist. Please register."});
+      if (data.length != 1) {
+        res.render("pages/login", {message : "Cannot find user in database"});
+        return;
       }
       const user = data[0];
       const match = await bcrypt.compare(req.body.password, user.password);
@@ -109,12 +110,12 @@ app.post('/login', async (req, res) => {
         req.session.save();
         res.redirect('/leaderboards');
       } else {
-        res.render("pages/login", {message : "Incorrect username or password"});
+        res.render("pages/login", {message : "Incorrect password"});
       }
     })
     .catch(function (err) {
       console.log(err);
-      res.render("pages/login", {message : "Cannot find user in database"});
+      res.render("pages/login", {message : "Something went wrong"});
     });
 });
 
