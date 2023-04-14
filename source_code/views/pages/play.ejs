@@ -4,16 +4,8 @@
 <main>
   <div class="container">
     <h1>Play</h1>
-    <h2>***Add trivia game content here***</h2>
-
-    <h4>Trivia question from API below:</h4>
-    <p><%= questions[0].question %></p>
-    <ol type="a">
-      <% let answers_arr = [questions[0].correctAnswer, ...questions[0].incorrectAnswers]; %>
-      <% for (let i = 0; i < answers_arr.length; i++) { %>
-        <li><%= answers_arr[i] %>
-      <% } %>
-    </ol>
+    <a type="button" class="btn btn-primary btn-lg" href="/play/single">Single Player</a>
+    <a type="button" class="btn btn-secondary btn-lg" href="/play/multi">Multi Player</a>
   </div>
 </main>
 
