@@ -1,0 +1,121 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div class="container">
+    <h1>Play</h1>
+    
+    <div id="gameContainer">
+        <a id="stateGameBtn" type="button" class="btn btn-primary btn-lg" onclick="startGame()">Start!</a>
+        <h3 id="questionHdr" style="text-align: center;"></h3>
+        <div id="buttonContainer" style="width:80%; margin: auto;"></div>
+        <h6 id="scoreHdr"></h6>
+        <h6 id="counterHdr"></h6>
+        <h6 id="timerHdr"></h6>
+        
+    </div>
+
+    <!-- <h4>Trivia question from API below:</h4>
+    <p><%= questions[0].question %></p>
+    <ol type="a">
+      <% let answers_arr = [questions[0].correctAnswer, ...questions[0].incorrectAnswers]; %>
+      <% for (let i = 0; i < answers_arr.length; i++) { %>
+        <li><%= answers_arr[i] %>
+      <% } %> -->
+    </ol>
+  </div>
+</main>
+<script>
+    const questions = <%- JSON.stringify(questions) %>;
+    let btnArr = [];
+    let timeLeft, gameTimer, questionCounter, totalScore;
+    const questionHeader = document.getElementById("questionHdr");
+    const gameContainer = document.getElementById("gameContainer");
+    const buttonContainer = document.getElementById("buttonContainer");
+    const scoreHdr = document.getElementById("scoreHdr");
+    const counterHdr = document.getElementById("counterHdr");
+    const timerHdr = document.getElementById("timerHdr");
+
+    function startGame() {
+        gameContainer.removeChild(document.getElementById("stateGameBtn")); //Remove start game button
+        totalScore = 0;
+        questionCounter = -1;
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        questionCounter++;
+        if (questionCounter >= questions.length) {
+            endGame();
+            return;
+        }
+        timeLeft = 10;
+        scoreHdr.innerHTML = "Score: " + totalScore;
+        counterHdr.innerHTML = "Question " + (questionCounter + 1) + "/" + questions.length;
+        questionHeader.innerHTML = questions[questionCounter].question
+        btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
+        btnArr = [];
+        let answers_arr = [questions[questionCounter].correctAnswer, ...questions[questionCounter].incorrectAnswers];
+        for (let i = 0; i < answers_arr.length; i++) {
+            let btn = document.createElement("button");
+            btn.className = "btn btn-primary btn-lg";
+            btn.style = "width: 100%; margin-bottom: 10px;";
+            btn.innerHTML = answers_arr[i];
+            btn.setAttribute('correctAnswer', i ? "false" : "true")
+            btn.onclick = () => {
+                totalScore += Math.round(timeLeft * (i ? 0 : 100));
+                showAnswers();
+            }
+            btnArr.push(btn);
+        }
+        btnArr.sort((a, b) => 0.5 - Math.random()); //Shuffle array
+        btnArr.forEach(btn => buttonContainer.appendChild(btn)); //Add buttons to container
+        gameTimer = setInterval(updateTimer, 100); //Update timer every half second
+    }
+
+    function showAnswers() {
+ 
+        clearInterval(gameTimer);
+        gameTimer = null;
+        btnArr.forEach(btn => {
+            btn.disabled = true;
+            if (btn.getAttribute("correctAnswer") == "true") {
+                btn.className = "btn btn-success btn-lg";
+                
+            } else {
+                btn.className = "btn btn-danger btn-lg";
+            }
+        });
+        setTimeout(nextQuestion, 1000);
+        timeLeft = 0;
+    }
+
+    function updateTimer() {
+        timeLeft -= 0.1;
+        if (timeLeft <= 0) {
+            showAnswers();
+        }
+        timeLeft = (Math.round(timeLeft * 10) / 10).toFixed(1)
+        timerHdr.innerHTML = "Time left: " + timeLeft + "s";
+    }
+
+    async function endGame() {
+        questionHeader.innerHTML = "Score: " + totalScore;
+        gameContainer.removeChild(timerHdr);
+        gameContainer.removeChild(counterHdr);
+        gameContainer.removeChild(scoreHdr);
+        btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
+        btnArr = [];
+        const response = await fetch('/play/single/submit_score', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({score: totalScore})
+        });
+    }
+</script>
+
+
+<%- include ('../partials/footer') %>
