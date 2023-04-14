@@ -10,6 +10,8 @@
         <h3 id="questionHdr" style="text-align: center;"></h3>
         <div id="buttonContainer" style="width:80%; margin: auto;"></div>
         <h6 id="scoreHdr"></h6>
+        <h6 id="counterHdr"></h6>
+        <h6 id="timerHdr"></h6>
         
     </div>
 
@@ -31,6 +33,8 @@
     const gameContainer = document.getElementById("gameContainer");
     const buttonContainer = document.getElementById("buttonContainer");
     const scoreHdr = document.getElementById("scoreHdr");
+    const counterHdr = document.getElementById("counterHdr");
+    const timerHdr = document.getElementById("timerHdr");
 
     function startGame() {
         gameContainer.removeChild(document.getElementById("stateGameBtn")); //Remove start game button
@@ -40,13 +44,15 @@
     }
 
     function nextQuestion() {
-        timeLeft = 10;
-        scoreHdr.innerHTML = "Score: " + totalScore;
         questionCounter++;
         if (questionCounter >= questions.length) {
             endGame();
             return;
         }
+        timeLeft = 10;
+        scoreHdr.innerHTML = "Score: " + totalScore;
+        counterHdr.innerHTML = "Question " + (questionCounter + 1) + "/" + questions.length;
+        questionHeader.innerHTML = questions[questionCounter].question
         btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
         btnArr = [];
         let answers_arr = [questions[questionCounter].correctAnswer, ...questions[questionCounter].incorrectAnswers];
@@ -57,7 +63,7 @@
             btn.innerHTML = answers_arr[i];
             btn.setAttribute('correctAnswer', i ? "false" : "true")
             btn.onclick = () => {
-                totalScore += timeLeft * (i ? 0 : 100);
+                totalScore += Math.round(timeLeft * (i ? 0 : 100));
                 showAnswers();
             }
             btnArr.push(btn);
@@ -80,7 +86,7 @@
                 btn.className = "btn btn-danger btn-lg";
             }
         });
-        setTimeout(nextQuestion, 1500);
+        setTimeout(nextQuestion, 1000);
         timeLeft = 0;
     }
 
@@ -90,13 +96,24 @@
             showAnswers();
         }
         timeLeft = (Math.round(timeLeft * 10) / 10).toFixed(1)
-        questionHeader.innerHTML = questions[questionCounter].question + " (" + timeLeft + "s)";
+        timerHdr.innerHTML = "Time left: " + timeLeft + "s";
     }
 
-    function endGame() {
-        questionHeader.innerHTML = "Game Over!";
+    async function endGame() {
+        questionHeader.innerHTML = "Score: " + totalScore;
+        gameContainer.removeChild(timerHdr);
+        gameContainer.removeChild(counterHdr);
+        gameContainer.removeChild(scoreHdr);
         btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
         btnArr = [];
+        const response = await fetch('/play/single/submit_score', {
+            method: 'POST',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({score: totalScore})
+        });
     }
 </script>
 
