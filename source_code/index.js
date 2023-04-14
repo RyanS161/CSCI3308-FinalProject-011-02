@@ -129,7 +129,7 @@ app.post('/register', async (req, res) => {
       res.redirect('/login');
     })
     .catch(function (err) {
-      res.redirect('/register', {message : "Could not register user"});
+      res.render("pages/register", {message : "Could not register user"});
     });
 });
 
