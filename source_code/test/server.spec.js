@@ -15,7 +15,7 @@ describe('Login: Negative case', () => {
     chai
       .request(server)
       .post('/login')
-      .send({'username' : 'thisisatestusername', 'password' : 'thisisatestpassword'})
+      .send({'username' : 'thisisabadusername', 'password' : 'thisisabadpassword'})
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
@@ -31,11 +31,11 @@ it('Redirect to leaderboard on a correct username and password', done => {
     chai
     .request(server)
     .post('/login')
-    .send({'username' : 'testuser', 'password' : 'testpass'}) //Pre-added in sql file
+    .send({'username' : 'testuser', 'password' : 'testpass'}) //Pre-added in index.js for easier testing
     .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
-        expect(res.text).to.contain('Add leaderboards content here');
+        expect(res).to.have.redirect;
         done();
     });
 });
@@ -51,8 +51,24 @@ describe('Register: Positive Case', () => {
       .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
-          expect(res).to.have.redirect
+          expect(res).to.have.redirect;
           done();
       });
   });
+});
+
+describe('Register: Negative Case', () => {
+  // Sample test case given to test / endpoint.
+  it('Return error message on registering pre-existing user', done => {
+      chai
+      .request(server)
+      .post('/register')
+      .send({'username' : 'testuser', 'password' : 'newPass'})
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res).to.have.header('content-type', 'text/html; charset=utf-8'); 
+        expect(res.text).to.contain('Could not register user');
+        done();
+      });
   });
+});

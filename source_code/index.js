@@ -129,7 +129,7 @@ app.post('/register', async (req, res) => {
       res.redirect('/login');
     })
     .catch(function (err) {
-      res.redirect('/register', {message : "Could not register user"});
+      res.render("pages/register", {message : "Could not register user"});
     });
 });
 
@@ -137,6 +137,12 @@ app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
+
+
+//ADD TEST USER
+// Username = testuser
+// Password = testpass
+(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
 
 
 // *****************************************************
