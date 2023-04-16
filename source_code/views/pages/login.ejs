@@ -1,22 +1,23 @@
 <%- include ('../partials/head') %>
 <%- include ('../partials/menu') %>
+<link href="/css/style.css" rel="stylesheet" type="text/css">
 
 <main>
-  <div class="container">
+  <div class="container" >
     <h1>Login</h1>
     <div class="col"><%- include ('../partials/message') %></div>
     <form action="/login" method="POST">
         <div class="mb-3">
           <label for="usernameInput" class="form-label">Username</label>
-          <input type="text" class="form-control" id="usernameInput" name="username">
+          <input type="text" class="form-control" id="usernameInput" name="username"  placeholder = "Enter Username">
         </div>
         <div class="mb-3">
           <label for="passwordInput" class="form-label">Password</label>
-          <input type="password" class="form-control" id="passwordInput" name="password">
+          <input type="password" class="form-control" id="passwordInput" name="password" placeholder = "Enter Password">
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary" style = "color:#010100;border-color:#FC2E20; background-color:#FC2E20;">Login</button>
       </form>
-    <p>Don't have an account? <a href="/register">Register here</a></p>
+    <p>Don't have an account? <a href="/register" style = "color: #FC2E20;">Register here</a></p>
   </div>
 </main>
 

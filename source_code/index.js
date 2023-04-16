@@ -155,7 +155,7 @@ app.get('/logout', (req, res) => {
 //ADD TEST USER
 // Username = testuser
 // Password = testpass
-(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
+//(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
 
 
 // *****************************************************
