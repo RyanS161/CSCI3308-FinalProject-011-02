@@ -29,6 +29,7 @@ db.connect()
 
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
+app.use(express.static('public'))
 
 // initialize session variables
 app.use(
@@ -155,7 +156,7 @@ app.get('/logout', (req, res) => {
 //ADD TEST USER
 // Username = testuser
 // Password = testpass
-(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
+//(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
 
 
 // *****************************************************

@@ -1,5 +1,5 @@
-<header>
-    <nav class="navbar navbar-expand-sm border-bottom">
+<header >
+    <nav class="navbar navbar-expand-sm border-bottom" >
       <div class="container">
         <button
           class="navbar-toggler ms-auto"
@@ -14,13 +14,13 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a href="/" class="nav-link">Home</a>
+              <a href="/" class="nav-link" style = "font-weight: bold">Home</a>
             </li>
             <li class="nav-item">
-                <a href="/play" class="nav-link">Play</a>
+                <a href="/play" class="nav-link" style = "font-weight: bold">Play</a>
             </li>
             <li class="nav-item">
-              <a href="/leaderboards" class="nav-link">Leaderboards</a>
+              <a href="/leaderboards" class="nav-link" style = "font-weight: bold">Leaderboards</a>
             </li>
           </ul>
           <% if (locals.user) { %>
@@ -33,7 +33,7 @@
               </ul>
             </div>
           <% } else { %>
-            <a class="btn btn-primary" href="/login" role="button">Login</a>
+            <a class="btn btn-primary" href="/login" role="button" style = "color:#010100;border-color:#FC2E20; background-color:#FC2E20;">Login</a>
           <% } %>
         </div>
       </div>
