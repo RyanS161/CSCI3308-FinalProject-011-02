@@ -68,14 +68,29 @@ app.get('/leaderboards', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render("pages/leaderboards", {user: req.session.user});
+    // Query to get high scores from database
+    let query = 'SELECT username, MAX(score) AS high_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC;';
+    db.any(query)
+    .then(async function (data) {
+      if (data.length == 0) {
+        res.render("pages/leaderboards", {user: req.session.user, message : "No scores found"});
+        return;
+      }
+      console.log(data);
+      res.render("pages/leaderboards", {user: req.session.user, leaderboards: data});
+    })
+    .catch(function (err) {
+      console.log(err);
+      res.render("pages/leaderboards", {message : "Something went wrong"});
+    });
+    
 });
 
 app.get('/play', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render("pages/play");
+    res.render("pages/play", {user: req.session.user});
 });
 
 app.get('/play/single', (req, res) => {
