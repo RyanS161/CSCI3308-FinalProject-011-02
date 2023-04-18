@@ -78,6 +78,14 @@ app.get('/play', (req, res) => {
     res.render("pages/play");
 });
 
+app.get('/how_to_play', (req, res) => {
+  res.render("pages/how_to_play");
+});
+
+app.get('/about', (req, res) => {
+  res.render("pages/about");
+});
+
 app.get('/play/single', (req, res) => {
   if (!req.session.user) {
       return res.redirect('/login');

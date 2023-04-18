@@ -27,20 +27,19 @@
 
 <div class="container" style="margin-top: 50px; margin-bottom: 50; align-items: center;">
   <div class="col"><%- include ('../partials/message') %></div>
-  <div class="home-list">
-    <div>
-        <h2><i class="fa-solid fa-play"></i> Play</h2>
-    </div>
-    <div>
-        <h2><i class="fa-solid fa-question"></i> How to Play</h2>
-    </div>
-    <div>
-        <h2><i class="fa-solid fa-circle-info"></i> About</h2>
-    </div>
-    <div>
-
-      <h2><i class="fa-solid fa-ranking-star"></i> Leaderboard</h2>
-  </div>
+    <div class="home-list">
+      <div style="cursor: pointer;" onclick="window.location='/play';">
+          <h2><i class="fa-solid fa-play"></i> Play</h2>
+      </div>
+      <div style="cursor: pointer;" onclick="window.location='/leaderboards';">
+        <h2><i class="fa-solid fa-ranking-star"></i> Leaderboard</h2>
+      </div>
+      <div style="cursor: pointer;" onclick="window.location='/how_to_play';">
+          <h2><i class="fa-solid fa-question"></i> How to Play</h2>
+      </div>
+      <div style="cursor: pointer;" onclick="window.location='/about';">
+          <h2><i class="fa-solid fa-circle-info"></i> About</h2>
+      </div>
   </div>
 </div>
 
