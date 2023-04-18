@@ -4,7 +4,26 @@
 <main>
   <div class="container">
     <h1>Leaderboards</h1>
-    <h2>***Add leaderboards content here***</h2>
+    <%- include('../partials/message') %>
+    <% if (locals.leaderboards) { %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Username</th>
+            <th scope="col">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (let i = 0; i < leaderboards.length; i++) { %>
+          <tr>
+            <th scope="row"><%= i + 1 %></th>
+            <td><%= leaderboards[i].username %></td>
+            <td><%= leaderboards[i].high_score %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      <% } %>
   </div>
 </main>
 
