@@ -86,6 +86,28 @@ app.get('/leaderboards', (req, res) => {
     
 });
 
+app.get('/totalLeaderboards', (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');
+  }
+  // Query to get total user score from database
+  let query = 'SELECT username, SUM(score) AS sum_score FROM singleplayergames GROUP BY username ORDER BY sum_score DESC;';
+  db.any(query)
+  .then(async function (data) {
+    if (data.length == 0) {
+      res.render("pages/totalLeaderboards", {user: req.session.user, message : "No scores found"});
+      return;
+    }
+    console.log(data);
+    res.render("pages/totalLeaderboards", {user: req.session.user, totalLeaderboards: data});
+  })
+  .catch(function (err) {
+    console.log(err);
+    res.render("pages/totalLeaderboards", {message : "Something went wrong"});
+  });
+  
+});
+
 app.get('/play', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
