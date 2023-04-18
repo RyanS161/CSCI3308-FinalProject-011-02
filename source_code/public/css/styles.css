@@ -1,6 +1,9 @@
 body {
     background-color:  #FDB750;
     font-family: 'Quantico',sans-serif;
+    align-items: center;
+    justify-content:center;
+    display: flex;
   }
   
   h1 {
@@ -11,19 +14,22 @@ body {
     border-color: white;
     border-radius: 10px;
   }
-  .center {
+  /* .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-  }
+  } */
   .navbar {
     overflow: hidden;
     background-color: #FDB750;
     position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
+    top: 0;
+    left:0; /* Position the navbar at the top of the page */
     width: 100%; /* Full width */
     border-bottom: #FDB750;
+    display: flex;
+    justify-content: left;
   }
   
   /* Links inside the navbar */
@@ -45,6 +51,7 @@ body {
   .main {
     margin-top: 10px; /* Add a top margin to avoid content overlay */
   }
+
   .bouncing-text {
     position: relative;
     display: flex;
@@ -53,10 +60,10 @@ body {
     font-family: 'Quantico', sans-serif; 
   }
   
-  .t, .u, .p, .l, .e, .t2, .r, .i, .v, .i2, .a {
+  .Br,.t, .u, .p, .l, .e,.comma, .t2, .r, .i, .v, .i2, .a,.Bl {
     position: relative;
-    color: #4cc9f0;
-    text-shadow: 0 3px #4361ee, 0 5px #4361ee, 0 7px #4361ee;
+    color: black;
+    text-shadow: 0 3px #FDB750, 0 5px orange, 0 7px #FC2E20;
   }
   
   .t {
