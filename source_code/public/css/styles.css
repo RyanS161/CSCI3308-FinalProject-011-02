@@ -27,9 +27,12 @@ body {
     width: 50%;
   } */
   .form-control {
-    color:#FC2E20;
+    background-color: #FDB750;
     border-color:black;
-    border-width: 5px;
+    border-width: 4px;
+  }
+  .form-control::placeholder {
+    color: black;
   }
   .navbar {
     overflow: hidden;
