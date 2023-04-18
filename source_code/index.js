@@ -103,7 +103,16 @@ app.get('/play/single', (req, res) => {
 
 app.post('/play/single/submit_score', async (req, res) => {
   console.log("Score received from client: " + req.body.score + " for user " + req.session.user.username);
-  // TODO: Send score to database
+  // TODO: Insert score into database
+  let query = 'INSERT INTO singleplayergames (username, score) VALUES ($1, $2);';
+  db.any(query, [req.session.user.username, req.body.score])
+  .then(async function (data) {
+    res.json({success: true});
+  })
+  .catch(function (err) {
+    console.log(err);
+    res.json({success: false});
+  });
 });
 
 app.post('/login', async (req, res) => {
@@ -155,7 +164,9 @@ app.get('/logout', (req, res) => {
 //ADD TEST USER
 // Username = testuser
 // Password = testpass
-(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
+(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)])
+  .catch((err) => console.log(err))
+)();
 
 
 // *****************************************************
