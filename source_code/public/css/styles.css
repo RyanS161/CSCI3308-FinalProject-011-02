@@ -26,6 +26,14 @@ body {
     margin-right: auto;
     width: 50%;
   } */
+  .form-control {
+    background-color: #FDB750;
+    border-color:black;
+    border-width: 4px;
+  }
+  .form-control::placeholder {
+    color: black;
+  }
   .navbar {
     overflow: show;
     background-color: #FDB750;
@@ -145,7 +153,7 @@ body {
   }
 
 
-  .bouncing-text:before, .bouncing-text:after {
+  /* .bouncing-text:before, .bouncing-text:after {
     content:"";
     position: absolute;
     background-color: rgba(0,0,0,0.4);
@@ -154,7 +162,7 @@ body {
     border-radius:50%;
     top:82px;
     z-index:-1;
-  }
+  } */
 
   .shadow, .shadow-two {
     position: absolute;
