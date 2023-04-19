@@ -69,7 +69,7 @@ app.get('/leaderboards', (req, res) => {
         return res.redirect('/login');
     }
     // Query to get high scores from database
-    let query = 'SELECT username, MAX(score) AS high_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC LIMIT 50;';
+    let query = 'SELECT username, MAX(score) AS high_score, SUM(score) AS total_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC LIMIT 50;'
     db.any(query)
     .then(async function (data) {
       if (data.length == 0) {
@@ -83,7 +83,6 @@ app.get('/leaderboards', (req, res) => {
       console.log(err);
       res.render("pages/leaderboards", {message : "Something went wrong"});
     });
-
 });
 
 app.get('/totalLeaderboards', (req, res) => {
@@ -191,6 +190,9 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
     //hash the password using bcrypt library
+    if (req.body.password.length < 8) {
+      res.render("pages/register", {message : "Password must be 8 or more characters"});
+    }
     const hash = await bcrypt.hash(req.body.password, 10);
     const query = 'INSERT INTO users(username, password) VALUES ($1, $2);';
     db.any(query, [req.body.username, hash])

@@ -6,12 +6,13 @@
     <h1>Leaderboards</h1>
     <%- include('../partials/message') %>
     <% if (locals.leaderboards) { %>
-      <table class="table table-striped">
+      <table class="table table-striped" style="float: left;">
         <thead>
           <tr>
             <th scope="col">Rank</th>
             <th scope="col">Username</th>
-            <th scope="col">Score</th>
+            <th scope="col">High Score</th>
+            <th scope="col">Total Score</th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
             <th scope="row"><%= i + 1 %></th>
             <td><%= leaderboards[i].username %></td>
             <td><%= leaderboards[i].high_score %></td>
+            <td><%= leaderboards[i].total_score %></td>
           </tr>
           <% } %>
         </tbody>
