@@ -190,6 +190,9 @@ app.post('/login', async (req, res) => {
 
 app.post('/register', async (req, res) => {
     //hash the password using bcrypt library
+    if (req.body.password.length < 8) {
+      res.render("pages/register", {message : "Password must be 8 or more characters"});
+    }
     const hash = await bcrypt.hash(req.body.password, 10);
     const query = 'INSERT INTO users(username, password) VALUES ($1, $2);';
     db.any(query, [req.body.username, hash])
