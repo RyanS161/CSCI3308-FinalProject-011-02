@@ -1,0 +1,10 @@
+Meeting Notes 4/18/2023:
+
+Look into score submission bug.
+
+Discuss and research two player functionality. socketio or any other package.
+
+Add a total leaderboard for high scores.
+
+Look into difficulty settings.
+

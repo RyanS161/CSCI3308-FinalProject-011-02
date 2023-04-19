@@ -12,6 +12,7 @@
         <h6 id="scoreHdr"></h6>
         <h6 id="counterHdr"></h6>
         <h6 id="timerHdr"></h6>
+        <h6 id="streakHdr"></h6>
         
     </div>
 
@@ -28,18 +29,20 @@
 <script>
     const questions = <%- JSON.stringify(questions) %>;
     let btnArr = [];
-    let timeLeft, gameTimer, questionCounter, totalScore;
+    let timeLeft, gameTimer, questionCounter, totalScore, streakCounter;
     const questionHeader = document.getElementById("questionHdr");
     const gameContainer = document.getElementById("gameContainer");
     const buttonContainer = document.getElementById("buttonContainer");
     const scoreHdr = document.getElementById("scoreHdr");
     const counterHdr = document.getElementById("counterHdr");
     const timerHdr = document.getElementById("timerHdr");
+    const streakHdr = document.getElementById("streakHdr");
 
     function startGame() {
         gameContainer.removeChild(document.getElementById("stateGameBtn")); //Remove start game button
         totalScore = 0;
         questionCounter = -1;
+        streakCounter = 0;
         nextQuestion();
     }
 
@@ -52,6 +55,7 @@
         timeLeft = 10;
         scoreHdr.innerHTML = "Score: " + totalScore;
         counterHdr.innerHTML = "Question " + (questionCounter + 1) + "/" + questions.length;
+        streakHdr.innerHTML = "Streak: " + streakCounter;
         questionHeader.innerHTML = questions[questionCounter].question
         btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
         btnArr = [];
@@ -63,7 +67,8 @@
             btn.innerHTML = answers_arr[i];
             btn.setAttribute('correctAnswer', i ? "false" : "true")
             btn.onclick = () => {
-                totalScore += Math.round(timeLeft * (i ? 0 : 100));
+                streakCounter = i ? 0 : streakCounter + 1;
+                totalScore += Math.round(timeLeft * (i ? 0 : 100) * (streakCounter * 1.1));
                 showAnswers();
             }
             btnArr.push(btn);
@@ -74,14 +79,12 @@
     }
 
     function showAnswers() {
- 
         clearInterval(gameTimer);
         gameTimer = null;
         btnArr.forEach(btn => {
             btn.disabled = true;
             if (btn.getAttribute("correctAnswer") == "true") {
                 btn.className = "btn btn-success btn-lg";
-                
             } else {
                 btn.className = "btn btn-danger btn-lg";
             }
@@ -104,6 +107,7 @@
         gameContainer.removeChild(timerHdr);
         gameContainer.removeChild(counterHdr);
         gameContainer.removeChild(scoreHdr);
+        gameContainer.removeChild(streakHdr);
         btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
         btnArr = [];
         const response = await fetch('/play/single/submit_score', {
@@ -114,6 +118,15 @@
             },
             body: JSON.stringify({score: totalScore})
         });
+        const data = await response.json();
+        if (data) {
+            let msg = document.createElement("div");
+            msg.className = data.success ? "alert alert-success" : "alert alert-danger";
+            msg.role = "alert";
+            msg.innerHTML = data.success ? "Score submitted successfully!" : "Error submitting score";
+            msg.innerHTML += data.success ? " <a href='/leaderboards'>Click here to view high scores</a>" : "";
+            buttonContainer.appendChild(msg);
+        }
     }
 </script>
 

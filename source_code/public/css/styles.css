@@ -26,13 +26,21 @@ body {
     margin-right: auto;
     width: 50%;
   } */
-  .navbar {
-    overflow: hidden;
+  .form-control {
     background-color: #FDB750;
-    position: fixed; /* Set the navbar to fixed position */
+    border-color:black;
+    border-width: 4px;
+  }
+  .form-control::placeholder {
+    color: black;
+  }
+  .navbar {
+    overflow: show;
+    background-color: #FDB750;
+    position: fixed;
     top: 0;
-    left:0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
+    left:0;
+    width: 100%;
     border-bottom: #FDB750;
     display: flex;
     justify-content: left;
@@ -146,7 +154,7 @@ body {
   }
 
 
-  .bouncing-text:before, .bouncing-text:after {
+  /* .bouncing-text:before, .bouncing-text:after {
     content:"";
     position: absolute;
     background-color: rgba(0,0,0,0.4);
@@ -155,7 +163,7 @@ body {
     border-radius:50%;
     top:82px;
     z-index:-1;
-  }
+  } */
 
   .shadow, .shadow-two {
     position: absolute;

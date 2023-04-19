@@ -68,14 +68,51 @@ app.get('/leaderboards', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render("pages/leaderboards", {user: req.session.user});
+    // Query to get high scores from database
+    let query = 'SELECT username, MAX(score) AS high_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC LIMIT 50;';
+    db.any(query)
+    .then(async function (data) {
+      if (data.length == 0) {
+        res.render("pages/leaderboards", {user: req.session.user, message : "No scores found"});
+        return;
+      }
+      console.log(data);
+      res.render("pages/leaderboards", {user: req.session.user, leaderboards: data});
+    })
+    .catch(function (err) {
+      console.log(err);
+      res.render("pages/leaderboards", {message : "Something went wrong"});
+    });
+    
+});
+
+app.get('/totalLeaderboards', (req, res) => {
+  if (!req.session.user) {
+      return res.redirect('/login');
+  }
+  // Query to get total user score from database
+  let query = 'SELECT username, SUM(score) AS sum_score FROM singleplayergames GROUP BY username ORDER BY sum_score DESC LIMIT 50;';
+  db.any(query)
+  .then(async function (data) {
+    if (data.length == 0) {
+      res.render("pages/totalLeaderboards", {user: req.session.user, message : "No scores found"});
+      return;
+    }
+    console.log(data);
+    res.render("pages/totalLeaderboards", {user: req.session.user, totalLeaderboards: data});
+  })
+  .catch(function (err) {
+    console.log(err);
+    res.render("pages/totalLeaderboards", {message : "Something went wrong"});
+  });
+  
 });
 
 app.get('/play', (req, res) => {
     if (!req.session.user) {
         return res.redirect('/login');
     }
-    res.render("pages/play");
+    res.render("pages/play", {user: req.session.user});
 });
 
 app.get('/how_to_play', (req, res) => {
@@ -112,7 +149,16 @@ app.get('/play/single', (req, res) => {
 
 app.post('/play/single/submit_score', async (req, res) => {
   console.log("Score received from client: " + req.body.score + " for user " + req.session.user.username);
-  // TODO: Send score to database
+  // TODO: Insert score into database
+  let query = 'INSERT INTO singleplayergames (username, score) VALUES ($1, $2);';
+  db.any(query, [req.session.user.username, req.body.score])
+  .then(async function (data) {
+    res.json({success: true});
+  })
+  .catch(function (err) {
+    console.log(err);
+    res.json({success: false});
+  });
 });
 
 app.post('/login', async (req, res) => {
@@ -130,7 +176,7 @@ app.post('/login', async (req, res) => {
         req.session.user = user;
         console.log(req.session.user);
         req.session.save();
-        res.redirect('/leaderboards');
+        res.redirect('/play');
       } else {
         res.render("pages/login", {message : "Incorrect password"});
       }
@@ -164,7 +210,9 @@ app.get('/logout', (req, res) => {
 //ADD TEST USER
 // Username = testuser
 // Password = testpass
-//(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)]))();
+(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)])
+  .catch((err) => console.log(err))
+)();
 
 
 // *****************************************************
