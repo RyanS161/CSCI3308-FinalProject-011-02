@@ -54,8 +54,9 @@ body {
   }
 
   /* Main content */
-  .main {
-    margin-top: 10px; /* Add a top margin to avoid content overlay */
+  main {
+    margin-top: 75px; /* Add a top margin to avoid content overlay */
+    padding-bottom: 100px;
   }
 
   .bouncing-text {
@@ -257,4 +258,9 @@ body {
 .home-list div:hover{
   background: #FC2E20;
   transform: translateY(-10px);
+}
+
+footer{
+  padding-top: 20px;
+  background-color: #FDB750;
 }
