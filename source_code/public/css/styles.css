@@ -62,8 +62,8 @@ body {
   }
 
   /* Main content */
-  .main {
-    margin-top: 10px; /* Add a top margin to avoid content overlay */
+  main {
+    margin-top: 75px; /* Add a top margin to avoid content overlay */
   }
 
   .bouncing-text {
