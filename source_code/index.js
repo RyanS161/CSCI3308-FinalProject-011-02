@@ -83,7 +83,7 @@ app.get('/leaderboards', (req, res) => {
       console.log(err);
       res.render("pages/leaderboards", {message : "Something went wrong"});
     });
-    
+
 });
 
 app.get('/totalLeaderboards', (req, res) => {
@@ -105,7 +105,7 @@ app.get('/totalLeaderboards', (req, res) => {
     console.log(err);
     res.render("pages/totalLeaderboards", {message : "Something went wrong"});
   });
-  
+
 });
 
 app.get('/play', (req, res) => {
@@ -136,6 +136,7 @@ app.get('/play/single', (req, res) => {
     },
     params: {
       limit: 10,
+
     },
   })
     .then(results => {
@@ -198,6 +199,54 @@ app.post('/register', async (req, res) => {
     })
     .catch(function (err) {
       res.render("pages/register", {message : "Could not register user"});
+    });
+});
+
+app.post('/play', (req, res) =>{
+  const difficulty = req.body.difficulty;
+  const categoriesArr = req.body.categories;
+  const playerCount = req.body.playerCount;
+  var categories;
+
+  console.log(difficulty);
+
+  if (Array.isArray(categoriesArr)){
+    categories = categoriesArr.join(",");
+  }
+  else{
+    categories = categoriesArr;
+  }
+
+
+  console.log(categories);
+
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  axios({
+    url: `https://the-trivia-api.com/api/questions`,
+    method: 'GET',
+    dataType: 'json',
+    headers: {
+      'Accept-Encoding': 'application/json',
+    },
+    params: {
+      limit: 10,
+      difficulties: difficulty,
+      categories: categories
+    },
+  })
+    .then(results => {
+      if (playerCount == "1"){
+        res.render("pages/play_single", {user: req.session.user, questions: results.data});
+      }
+      else if (playerCount == "2"){
+        res.render("pages/play_multi", {user: req.session.user, questions: results.data});
+      }
+    })
+    .catch(error => {
+      // console.log(error);
+      res.render("pages/play_single", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
     });
 });
 

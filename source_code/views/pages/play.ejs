@@ -4,8 +4,8 @@
 <main>
   <div class="container">
     <h1>Play</h1>
-    <form>
-    
+    <form action="/play" method="POST">
+
       <fieldset class="form-group">
         <div class="row">
           <legend class="col-form-label col-sm-2 pt-0">Difficulty</legend>
@@ -36,13 +36,13 @@
           <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
           <div class="col-sm-10">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios1" value="option1" checked>
+              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios1" value="1" checked>
               <label class="form-check-label" for="gridRadios1">
                 Single Player
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios2" value="option2">
+              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios2" value="2">
               <label class="form-check-label" for="gridRadios2">
                 Multiplayer
               </label>
@@ -106,20 +106,16 @@
                 Food
               </label>
             </div>
-            
-          </div>
 
-          
+          </div>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-sm-10">
-          <button type="submit" class="btn btn-primary">Sign in</button>
+          <button type="submit" class="btn btn-primary">Play</button>
         </div>
       </div>
     </form>
-    <a type="button" class="btn btn-primary btn-lg" href="/play/single">Single Player</a>
-    <a type="button" class="btn btn-secondary btn-lg" href="/play/multi">Multi Player</a>
   </div>
 </main>
 
