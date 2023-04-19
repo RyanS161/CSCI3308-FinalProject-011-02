@@ -4,8 +4,118 @@
 <main>
   <div class="container">
     <h1>Play</h1>
-    <a type="button" class="btn btn-primary btn-lg" href="/play/single">Single Player</a>
-    <a type="button" class="btn btn-secondary btn-lg" href="/play/multi">Multi Player</a>
+    <form action="/play" method="POST">
+
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Difficulty</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="difficulty" id="gridRadios1" value="easy" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Easy
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="difficulty" id="gridRadios2" value="medium" checked>
+              <label class="form-check-label" for="gridRadios2">
+                Medium
+              </label>
+            </div>
+            <div class="form-check disabled">
+              <input class="form-check-input" type="radio" name="difficulty" id="gridRadios3" value="hard">
+              <label class="form-check-label" for="gridRadios3">
+                Hard
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios1" value="1" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Single Player
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios2" value="2">
+              <label class="form-check-label" for="gridRadios2">
+                Multiplayer
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <div class="form-group row">
+        <div class="col-sm-2">Checkbox</div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <input class="form-check-input"  name = "categories" type="checkbox" id="gridCheck1" value = "science">
+            <label class="form-check-label" for="gridCheck1" >
+              Science
+            </label>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "films_and_tv">
+              <label class="form-check-label" for="gridCheck1">
+                Film + TV
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input"  name = "categories"type="checkbox" id="gridCheck1" value = "music">
+              <label class="form-check-label" for="gridCheck1">
+                Music
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "history">
+              <label class="form-check-label" for="gridCheck1">
+                History
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "geography">
+              <label class="form-check-label" for="gridCheck1">
+                Geography
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "art_and_literature">
+              <label class="form-check-label" for="gridCheck1">
+                Art + Literature
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value="sport_and_leisure">
+              <label class="form-check-label" for="gridCheck1">
+                Sports
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value="general_knowledge">
+              <label class="form-check-label" for="gridCheck1">
+                General Knowledge
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1"value="food_and_drink">
+              <label class="form-check-label" for="gridCheck1">
+                Food
+              </label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-primary">Play</button>
+        </div>
+      </div>
+    </form>
   </div>
 </main>
 
