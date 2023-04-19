@@ -35,12 +35,12 @@ body {
     color: black;
   }
   .navbar {
-    overflow: hidden;
+    overflow: show;
     background-color: #FDB750;
-    position: fixed; /* Set the navbar to fixed position */
+    position: fixed;
     top: 0;
-    left:0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
+    left:0;
+    width: 100%;
     border-bottom: #FDB750;
     display: flex;
     justify-content: left;

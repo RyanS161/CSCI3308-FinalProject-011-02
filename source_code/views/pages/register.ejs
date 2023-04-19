@@ -2,19 +2,39 @@
 <%- include ('../partials/menu') %>
 
 <main>
-  <div class="container">
+<div class = 'container'>
+  <div class="bouncing-text">
+    <div class="Br">(</div>
+    <div class="t">T</div>
+    <div class="u">U</div>
+    <div class="p">P</div>
+    <div class="l">L</div>
+    <div class="e">E</div>
+    <div class="comma">,</div>
+    <div class="t2">T</div>
+    <div class="r">R</div>
+    <div class="i">I</div>
+    <div class="v">V</div>
+    <div class="i2">I</div>
+    <div class="a">A</div>
+    <div class="Bl">)</div>
+  </div>
+</div>
+
+<main>
+  <div class="container" >
     <h1>Register</h1>
     <div class="col"><%- include ('../partials/message') %></div>
     <form action="/register" method="POST">
         <div class="mb-3">
           <label for="usernameInput" class="form-label">Username</label>
-          <input type="text" class="form-control" id="usernameInput" name="username">
+          <input type="text" class="form-control" id="usernameInput" name="username"  placeholder = "Enter Username">
         </div>
         <div class="mb-3">
           <label for="passwordInput" class="form-label">Password</label>
-          <input type="password" class="form-control" id="passwordInput" name="password">
+          <input type="password" class="form-control" id="passwordInput" name="password" placeholder = "Enter Password">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary" style = "color:#010100;border-color:#FC2E20; background-color:#FC2E20;">Register</button>
       </form>
       <p>Already have an account? <a href="/login">Login here</a></p>
   </div>
