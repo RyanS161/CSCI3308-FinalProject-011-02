@@ -69,7 +69,7 @@ app.get('/leaderboards', (req, res) => {
         return res.redirect('/login');
     }
     // Query to get high scores from database
-    let query = 'SELECT username, MAX(score) AS high_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC;';
+    let query = 'SELECT username, MAX(score) AS high_score FROM singleplayergames GROUP BY username ORDER BY high_score DESC LIMIT 50;';
     db.any(query)
     .then(async function (data) {
       if (data.length == 0) {
@@ -91,7 +91,7 @@ app.get('/totalLeaderboards', (req, res) => {
       return res.redirect('/login');
   }
   // Query to get total user score from database
-  let query = 'SELECT username, SUM(score) AS sum_score FROM singleplayergames GROUP BY username ORDER BY sum_score DESC;';
+  let query = 'SELECT username, SUM(score) AS sum_score FROM singleplayergames GROUP BY username ORDER BY sum_score DESC LIMIT 50;';
   db.any(query)
   .then(async function (data) {
     if (data.length == 0) {
@@ -176,7 +176,7 @@ app.post('/login', async (req, res) => {
         req.session.user = user;
         console.log(req.session.user);
         req.session.save();
-        res.redirect('/leaderboards');
+        res.redirect('/play');
       } else {
         res.render("pages/login", {message : "Incorrect password"});
       }
