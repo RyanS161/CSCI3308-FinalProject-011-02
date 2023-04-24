@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server.
+const multiplayerManager = require('./multi_play.js'); // To import the multiplayer manager object
 
 // database configuration
 const dbConfig = {
@@ -243,13 +244,24 @@ app.post('/play', (req, res) =>{
         res.render("pages/play_single", {user: req.session.user, questions: results.data});
       }
       else if (playerCount == "2"){
-        res.render("pages/play_multi", {user: req.session.user, questions: results.data});
+        console.log("Creating new multiplayer game...");
+        let game = multiplayerManager.addNewGame(results.data);
+        let gameCode = game.gameCode;
+        console.log("Game code: " + gameCode);
+        res.redirect(`play/multi/${gameCode}`);
       }
     })
-    .catch(error => {
-      // console.log(error);
-      res.render("pages/play_single", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
-    });
+    // .catch(error => {
+    //   // console.log(error);
+    //   res.render("pages/play_single", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
+    // });
+});
+
+app.get('/play/multi/:code', (req, res) =>{
+  console.log("Loading multiplayer game...");
+  let gameCode = req.params.code;
+  let game = multiplayerManager.findGame(gameCode);
+  res.render("pages/play_multi", {user: req.session.user, gameCode: gameCode});
 });
 
 app.get('/logout', (req, res) => {
