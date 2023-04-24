@@ -3,17 +3,205 @@
 
 <main>
   <div class="container">
-    <h1>Play</h1>
-    <% if (locals.gameCode) { %>
-        <div
-            class="alert alert-<%- locals.error ? 'danger' : 'success' %>"
-            role="alert">
-            Invite others to play with this link: <a href="/play/multi/<%= gameCode %>"></a>localhost:3000/play/multi/<%= gameCode %></a>
-        </div>
-    <% } %>
-    </ol>
+    <div id="preGameContainer">
+        <% if (locals.gameCode) { %>
+            <div
+                class="alert alert-<%- locals.error ? 'danger' : 'success' %>"
+                role="alert">
+                Invite others to play with this link: <a href="/play/multi/<%= gameCode %>"></a>localhost:3000/play/multi/<%= gameCode %></a>
+            </div>
+        <% } %>
+        <h1 id="totalPlayers"></h1>
+        <ul id="playerList"></ul>
+        <button class="btn btn-primary btn-lg" id="startGameBtn">Start Game</button>
+    </div>
+    <div id="gameContainer" style="display: none;">
+        <h3 id="questionHdr" style="text-align: center;"></h3>
+        <div id="buttonContainer" style="width:80%; margin: auto;"></div>
+        <h6 id="scoreHdr"></h6>
+        <h6 id="counterHdr"></h6>
+        <h6 id="timerHdr"></h6>
+        <h6 id="streakHdr"></h6>
+        <br>
+        <ol id="leaderboardList"></ol>
+    </div>
   </div>
 </main>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    const username = "<%= user.username %>";
+    const gameCode = "<%= gameCode %>";
+    socket.emit('joined_multiplayer_game', {gameCode : gameCode, username : username});
+    let btnArr = [];
+    let timeLeft, gameTimer, questionCounter, totalScore, streakCounter;
+    const questionHeader = document.getElementById("questionHdr");
+    const gameContainer = document.getElementById("gameContainer");
+    const buttonContainer = document.getElementById("buttonContainer");
+    const scoreHdr = document.getElementById("scoreHdr");
+    const counterHdr = document.getElementById("counterHdr");
+    const timerHdr = document.getElementById("timerHdr");
+    const streakHdr = document.getElementById("streakHdr");
+    const leaderboardList = document.getElementById("leaderboardList");
+
+    function displayQuestion(question) {
+        timeLeft = 10;
+        scoreHdr.innerHTML = "Score: " + totalScore;
+        //counterHdr.innerHTML = "Question " + (questionCounter + 1) + "/" + questions.length;
+        streakHdr.innerHTML = "Streak: " + streakCounter;
+        questionHeader.innerHTML = question.question;
+        btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
+        btnArr = [];
+        let answers_arr = [question.correctAnswer, ...question.incorrectAnswers];
+        for (let i = 0; i < answers_arr.length; i++) {
+            let btn = document.createElement("button");
+            btn.className = "btn btn-primary btn-lg";
+            btn.style = "width: 100%; margin-bottom: 10px;";
+            btn.innerHTML = answers_arr[i];
+            btn.setAttribute('correctAnswer', i ? "false" : "true")
+            btn.onclick = () => {
+                streakCounter = i ? 0 : streakCounter + 1;
+                totalScore += Math.round(timeLeft * (i ? 0 : 100) * (streakCounter * 1.1));
+                showAnswers();
+            }
+            btnArr.push(btn);
+        }
+        btnArr.sort((a, b) => 0.5 - Math.random()); //Shuffle array
+        btnArr.forEach(btn => buttonContainer.appendChild(btn)); //Add buttons to container
+        gameTimer = setInterval(updateTimer, 100); //Update timer every half second
+    }
+
+    function showAnswers() {
+        clearInterval(gameTimer);
+        gameTimer = null;
+        btnArr.forEach(btn => {
+            btn.disabled = true;
+            if (btn.getAttribute("correctAnswer") == "true") {
+                btn.className = "btn btn-success btn-lg";
+            } else {
+                btn.className = "btn btn-danger btn-lg";
+            }
+        });
+        socket.emit("update_player_score", {gameCode: gameCode, username : username, score : totalScore});
+        timeLeft = 0;
+    }
+
+    function displayLeaderboard(leaderboard) {
+        leaderboardList.innerHTML = "";
+        leaderboard.forEach(player => {
+            let li = document.createElement("li");
+            li.innerHTML = player.name + ": " + player.score;
+            leaderboardList.appendChild(li);
+        });
+    }
+
+    function updateTimer() {
+        timeLeft -= 0.1;
+        if (timeLeft <= 0) {
+            showAnswers();
+        }
+        timeLeft = (Math.round(timeLeft * 10) / 10).toFixed(1)
+        timerHdr.innerHTML = "Time left: " + timeLeft + "s";
+    }
+
+    async function endGame() {
+        questionHeader.innerHTML = "Score: " + totalScore;
+        gameContainer.removeChild(timerHdr);
+        gameContainer.removeChild(counterHdr);
+        gameContainer.removeChild(scoreHdr);
+        gameContainer.removeChild(streakHdr);
+        btnArr.forEach(btn => buttonContainer.removeChild(btn)); //Remove all buttons
+        btnArr = [];
+        // const response = await fetch('/play/single/submit_score', {
+        //     method: 'POST',
+        //     headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({score: totalScore})
+        // });
+        // const data = await response.json();
+        // if (data) {
+        //     let msg = document.createElement("div");
+        //     msg.className = data.success ? "alert alert-success" : "alert alert-danger";
+        //     msg.role = "alert";
+        //     msg.innerHTML = data.success ? "Score submitted successfully!" : "Error submitting score";
+        //     msg.innerHTML += data.success ? " <a href='/leaderboards'>Click here to view high scores</a>" : "";
+        //     buttonContainer.appendChild(msg);
+        // }
+    }
+
+
+
+    socket.on("new_players_joined", msg => {
+        //Update totalPlayers heading
+        var totalPlayers = document.getElementById("totalPlayers");
+        totalPlayers.innerHTML = "Total Players: " + msg.players.length;
+        var startGameButton = document.getElementById("startGameBtn");
+        var playerList = document.getElementById("playerList");
+        while (playerList.firstChild) {
+                playerList.removeChild(playerList.firstChild);
+        }
+        for (var i = 0; i < msg.players.length; i++) {
+ 
+            var li = document.createElement("li");
+            li.innerHTML = msg.players[i];
+            playerList.appendChild(li);
+        }
+        if (msg.players.length > 1 && username == msg.ownerName) {
+            // Create a button to start the game
+            startGameButton.style.display = "block";
+            startGameButton.onclick = function() {
+                socket.emit("start_multiplayer_game", {gameCode : gameCode, username : username});
+            }
+        } else {
+            startGameButton.style.display = "none";
+        }
+    });
+    socket.on("game_start", msg => {
+        //Update totalPlayers heading
+        var totalPlayers = document.getElementById("totalPlayers");
+        totalPlayers.innerHTML = "Total Players: " + msg.players.length;
+        var startGameButton = document.getElementById("startGameBtn");
+        var playerList = document.getElementById("playerList");
+        while (playerList.firstChild) {
+                playerList.removeChild(playerList.firstChild);
+        }
+        for (var i = 0; i < msg.players.length; i++) {
+ 
+            var li = document.createElement("li");
+            li.innerHTML = msg.players[i];
+            playerList.appendChild(li);
+        }
+        if (msg.players.length > 1 && username == msg.ownerName) {
+            // Create a button to start the game
+            startGameButton.style.display = "block";
+            startGameButton.onclick = function() {
+                socket.emit("start_multiplayer_game", {gameCode : gameCode, username : username});
+            }
+        } else {
+            startGameButton.style.display = "none";
+        }
+    });
+    socket.on("game_starting", msg => {
+        document.getElementById("preGameContainer").style.display = "none";
+        document.getElementById("gameContainer").style.display = "block";
+        totalScore = 0;
+        questionCounter = -1;
+        streakCounter = 0;
+        displayQuestion(msg.question);
+        displayLeaderboard(msg.leaderboard);
+    });
+    
+    socket.on("question_advancing", msg => {
+        setTimeout(() => displayQuestion(msg.question), 1500);
+        displayLeaderboard(msg.leaderboard);
+    });
+    socket.on("game_ending", msg => {
+        setTimeout(endGame, 1500);
+    });
+</script>
 
 
 <%- include ('../partials/footer') %>
