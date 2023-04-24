@@ -1,10 +1,18 @@
 const express = require('express'); // To build an application server or API
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
 const bodyParser = require('body-parser');
 const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server.
+const multiplayerManager = require('./multi_play.js'); // To import the multiplayer manager object
+
+
+
 
 // database configuration
 const dbConfig = {
@@ -243,13 +251,24 @@ app.post('/play', (req, res) =>{
         res.render("pages/play_single", {user: req.session.user, questions: results.data});
       }
       else if (playerCount == "2"){
-        res.render("pages/play_multi", {user: req.session.user, questions: results.data});
+        let game = multiplayerManager.addNewGame(results.data);
+        let gameCode = game.gameCode;
+        res.redirect(`play/multi/${gameCode}`);
       }
     })
-    .catch(error => {
-      // console.log(error);
-      res.render("pages/play_single", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
-    });
+    // .catch(error => {
+    //   // console.log(error);
+    //   res.render("pages/play_single", {user: req.session.user, questions: [{"question": "Error loading questions"}]});
+    // });
+});
+
+app.get('/play/multi/:code', (req, res) =>{
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  let gameCode = req.params.code;
+  let game = multiplayerManager.findGame(gameCode);
+  res.render("pages/play_multi", {user: req.session.user, gameCode: gameCode});
 });
 
 app.get('/logout', (req, res) => {
@@ -261,14 +280,51 @@ app.get('/logout', (req, res) => {
 //ADD TEST USER
 // Username = testuser
 // Password = testpass
-(async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', ['testuser', await bcrypt.hash("testpass", 10)])
-  .catch((err) => console.log(err))
-)();
+let testusers = ['testuser', 'testuser0', 'testuser1', 'testuser2', 'testuser3'];
+for (let i = 0; i < testusers.length; i++) {
+  (async () => db.any('INSERT INTO users(username, password) VALUES ($1, $2);', [testusers[i], await bcrypt.hash("testpass", 10)])
+  .catch((err) => console.log(err)))();
+}
 
 
 // *****************************************************
 // <!-- Start Server-->
 // *****************************************************
 // starting the server and keeping the connection open to listen for more requests
-module.exports = app.listen(3000);
-console.log('Server is listening on port 3000');
+
+io.on('connection', (socket) => {
+  socket.on('joined_multiplayer_game', (msg) => {
+    if (multiplayerManager.findGame(msg.gameCode).addPlayer(socket, msg.username)) {
+      socket.join(msg.gameCode);
+      let playerList = multiplayerManager.findGame(msg.gameCode).players.map((player) => player.name);
+      console.log(playerList)
+      io.to(msg.gameCode).emit('new_players_joined', {players : playerList, ownerName : multiplayerManager.findGame(msg.gameCode).owner.name});
+    }
+  });
+
+  socket.on('start_multiplayer_game', (msg) => {
+    let game = multiplayerManager.findGame(msg.gameCode);
+    if (game.owner.name == msg.username){
+      game.startGame();
+      io.to(msg.gameCode).emit('game_starting', {question : game.getCurrentQuestion(), leaderboard : game.leaderboard()});
+    }
+  });
+
+  socket.on('update_player_score', (msg) => {
+    let game = multiplayerManager.findGame(msg.gameCode);
+    game.updatePlayerScore(msg.username, msg.score);
+    if (game.readyToAdvance()) {
+      if (game.nextQuestion()) {
+        io.to(msg.gameCode).emit('question_advancing', {question : game.getCurrentQuestion(), leaderboard : game.leaderboard()});
+      } else {
+        io.to(msg.gameCode).emit('game_ending', {leaderboard : game.leaderboard()});
+      }
+      
+    }
+  });
+
+});
+
+module.exports = server.listen(3000, () => {
+  console.log('Server is listening on port 3000');
+});
