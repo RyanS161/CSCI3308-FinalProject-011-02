@@ -282,21 +282,12 @@ html {
     padding: 0;
 }
 
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    
-    /* fallback for old browsers 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-}
 
-.container {
+/* .container {
     max-width: 640px;
     font-size: 13px;
-}
+} */
 
 ul.ks-cboxtags {
     list-style: none;
@@ -310,9 +301,9 @@ ul.ks-cboxtags li label{
     background-color: rgba(255, 255, 255, .9);
     border: 2px solid rgba(139, 139, 139, .3);
     color: #adadad;
-    border-radius: 25px;
+    border-radius: 12.5px;
     white-space: nowrap;
-    margin: 3px 0px;
+    margin: 2px 2px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -323,7 +314,7 @@ ul.ks-cboxtags li label{
 }
 
 ul.ks-cboxtags li label {
-    padding: 8px 12px;
+    padding: 32px 48px;
     cursor: pointer;
 }
 
@@ -340,11 +331,11 @@ ul.ks-cboxtags li label {
     transition: transform .3s ease-in-out;
 } */
 
-ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+/* ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
     content: "";
     transform:scale(2);
     transition: transform .3s ease-in-out;
-}
+} */
 
 ul.ks-cboxtags li input[type="checkbox"]:checked + label {
     border: 2px solid black;
@@ -363,3 +354,31 @@ ul.ks-cboxtags li input[type="checkbox"] {
 /* ul.ks-cboxtags li input[type="checkbox"]:focus + label {
   border: 2px solid black;
 } */
+
+input[type='radio']:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #d1d3d1;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
+}
+
+input[type='radio']:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #FC2E20;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid black;
+}
