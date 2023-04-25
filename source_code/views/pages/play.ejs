@@ -3,14 +3,14 @@
 
 <main>
   <div class="container">
-    <h1>Settings</h1>
+    <h1 id = "settingH">Settings</h1>
     <form action="/play" method="POST">
 
       <div class = "container">
       <fieldset class="form-group row">
         <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Difficulty</legend>
-          <div class="col-sm-10">
+          <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Difficulty</legend>
+          <!-- div class="col-sm-10">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="difficulty" id="gridRadios1" value="easy" checked>
               <label class="form-check-label" for="gridRadios1">
@@ -28,35 +28,51 @@
               <label class="form-check-label" for="gridRadios3">
                 Hard
               </label>
-            </div>
+            </div>< -->
+            <div class="wrapper">
+              <input type="radio" name="difficulty" id="option-1" value = "easy">
+              <input type="radio" name="difficulty" id="option-2"checked value = "medium">
+              <input type="radio" name="difficulty" id="option-3" value = "hard">
+                <label for="option-1" class="option option-1">
+                   <span>Easy</span>
+                   </label>
+                <label for="option-2" class="option option-2">
+                  
+                   <span>Medium</span>
+                </label>
+                <label for="option-3" class="option option-3">
+                  
+                   <span>Hard</span>
+                </label>
+             </div>
           </div>
         </div>
       </fieldset>
       <fieldset class="form-group row">
         <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
+          <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Mode</legend>
           <div class="col-sm-10">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios1" value="1" checked>
-              <label class="form-check-label" for="gridRadios1">
-                Single Player
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios2" value="0">
-              <label class="form-check-label" for="gridRadios2">
-                Multiplayer
-              </label>
-            </div>
+            <div class="wrapper">
+              <input type="radio" name="playerCount" id="option-1" checked value = "1">
+              <input type="radio" name="playerCount" id="option-2" value = "2">
+                <label for="option-1" class="option option-1">
+                  
+                   <span>Single Player</span>
+                   </label>
+                <label for="option-2" class="option option-2">
+                  
+                   <span>Multiplayer</span>
+                </label>
+             </div>
           </div>
         </div>
       </fieldset>
       <fieldset class ="form-group col">
         
       </fieldset>
-    </div>
+    
       <div class="form-group col">
-       <div >Categories</div>
+        <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Categories</legend>
         
             <div class="container">
               <ul class="ks-cboxtags">
@@ -76,12 +92,14 @@
           </div>
         </div>
       </div>
+    </div>
       <div class="form-group col">
         <div class="col-sm-10">
-          <button type="submit" class="btn btn-primary">Play</button>
+          <button id = "playbtn" type="submit" class="btn btn-primary">Play</button>
         </div>
       </div>
     </form>
+
   </div>
 </main>
 
