@@ -3,13 +3,14 @@
 
 <main>
   <div class="container">
-    <h1>Play</h1>
+    <h1 id = "settingH">Settings</h1>
     <form action="/play" method="POST">
 
-      <fieldset class="form-group">
+      <div class = "container">
+      <fieldset class="form-group row">
         <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Difficulty</legend>
-          <div class="col-sm-10">
+          <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Difficulty</legend>
+          <!-- div class="col-sm-10">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="difficulty" id="gridRadios1" value="easy" checked>
               <label class="form-check-label" for="gridRadios1">
@@ -22,100 +23,82 @@
                 Medium
               </label>
             </div>
-            <div class="form-check disabled">
+            <div class="form-check">
               <input class="form-check-input" type="radio" name="difficulty" id="gridRadios3" value="hard">
               <label class="form-check-label" for="gridRadios3">
                 Hard
               </label>
-            </div>
+            </div>< -->
+            <div class="wrapper">
+              <input type="radio" name="difficulty" id="option-1" value = "easy">
+              <input type="radio" name="difficulty" id="option-2"checked value = "medium">
+              <input type="radio" name="difficulty" id="option-3" value = "hard">
+                <label for="option-1" class="option option-1">
+                   <span>Easy</span>
+                   </label>
+                <label for="option-2" class="option option-2">
+                  
+                   <span>Medium</span>
+                </label>
+                <label for="option-3" class="option option-3">
+                  
+                   <span>Hard</span>
+                </label>
+             </div>
           </div>
         </div>
       </fieldset>
-      <fieldset class="form-group">
+      <fieldset class="form-group row">
         <div class="row">
-          <legend class="col-form-label col-sm-2 pt-0">Mode</legend>
+          <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Mode</legend>
           <div class="col-sm-10">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios1" value="1" checked>
-              <label class="form-check-label" for="gridRadios1">
-                Single Player
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="playerCount" id="gridRadios2" value="2">
-              <label class="form-check-label" for="gridRadios2">
-                Multiplayer
-              </label>
-            </div>
+            <div class="wrapper">
+              <input type="radio" name="playerCount" id="option-4" checked value = "1">
+              <input type="radio" name="playerCount" id="option-5" value = "2">
+                <label for="option-4" class="option option-4">
+                  
+                   <span>Single Player</span>
+                   </label>
+                <label for="option-5" class="option option-5">
+                   <span>Multiplayer</span>
+                </label>
+             </div>
           </div>
         </div>
       </fieldset>
-      <div class="form-group row">
-        <div class="col-sm-2">Checkbox</div>
-        <div class="col-sm-10">
-          <div class="form-check">
-            <input class="form-check-input"  name = "categories" type="checkbox" id="gridCheck1" value = "science">
-            <label class="form-check-label" for="gridCheck1" >
-              Science
-            </label>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "films_and_tv">
-              <label class="form-check-label" for="gridCheck1">
-                Film + TV
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input"  name = "categories"type="checkbox" id="gridCheck1" value = "music">
-              <label class="form-check-label" for="gridCheck1">
-                Music
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "history">
-              <label class="form-check-label" for="gridCheck1">
-                History
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "geography">
-              <label class="form-check-label" for="gridCheck1">
-                Geography
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value = "art_and_literature">
-              <label class="form-check-label" for="gridCheck1">
-                Art + Literature
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value="sport_and_leisure">
-              <label class="form-check-label" for="gridCheck1">
-                Sports
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1" value="general_knowledge">
-              <label class="form-check-label" for="gridCheck1">
-                General Knowledge
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" name = "categories" type="checkbox" id="gridCheck1"value="food_and_drink">
-              <label class="form-check-label" for="gridCheck1">
-                Food
-              </label>
+      <fieldset class ="form-group col">
+        
+      </fieldset>
+    
+      <div class="form-group col">
+        <legend class="col-form-label col-sm-2 pt-0" style = "font-weight: bold;">Categories</legend>
+        
+            <div class="container">
+              <ul class="ks-cboxtags">
+                <li><input type="checkbox" id="checkboxOne" name = "categories" value="science"><label for="checkboxOne" >Science</label></li>
+                <li><input type="checkbox" id="checkboxTwo" name = "categories" value="films_and_tv" checked><label for="checkboxTwo">Film + TV</label></li>
+                <li><input type="checkbox" id="checkboxThree" name = "categories" value="music" checked><label for="checkboxThree" >Music</label></li>
+                <li><input type="checkbox" id="checkboxFour" name = "categories" value="history"><label for="checkboxFour" >History</label></li>
+                <li><input type="checkbox" id="checkboxFive" name = "categories" value="geography"><label for="checkboxFive" >Geography</label></li>
+                <li><input type="checkbox" id="checkboxSix" name = "categories" value="art_and_literature" checked><label for="checkboxSix">Art + Literature</label></li>
+                <li><input type="checkbox" id="checkboxSeven" name = "categories" value="sport_and_leisure"><label for="checkboxSeven">Sports</label></li>
+                <li><input type="checkbox" id="checkboxEight" name = "categories" value="general_knowledge"><label for="checkboxEight">General Knowledge</label></li>
+                <li><input type="checkbox" id="checkboxNine" name = "categories" value="food_and_drink"><label for="checkboxNine">Food</label></li>
+              </ul>
+            
             </div>
 
           </div>
         </div>
       </div>
-      <div class="form-group row">
+    </div>
+      <div class="form-group col">
         <div class="col-sm-10">
-          <button type="submit" class="btn btn-primary">Play</button>
+          <button id = "playbtn" type="submit" class="btn btn-primary">Play</button>
         </div>
       </div>
     </form>
+
   </div>
 </main>
 
